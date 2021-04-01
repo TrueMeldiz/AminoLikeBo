@@ -1,9 +1,8 @@
-from colorama import init
-from colorama import Fore, Back, Style
+from colorama import init, Fore, Back, Style
 init()
 print(Back.BLACK)
 print(Fore.YELLOW)
-print(Style.BRIGHT)
+print(Style.NORMAL)
 print("Script by Zevi/Скрипт сделан Zevi")
 print("┌────────────────────────────────────┐")
 print("│Author :  LilZevi                   │")
@@ -13,15 +12,22 @@ print("YouTube: https://www.youtube.com/channel/UCJ61JlXJckmO6yJr8BDRuGQ")
 print("▄▀▄ █▄░▄█ ▀ █▄░█ ▄▀▄ █░░ ▀ █░▄▀ █▀▀ █▀▄ ▄▀▄")
 print("█▀█ █░█░█ █ █░▀█ █░█ █░▄ █ █▀▄░ █▀▀ █▀█ █░█")
 print("▀░▀ ▀░░░▀ ▀ ▀░░▀ ░▀░ ▀▀▀ ▀ ▀░▀▀ ▀▀▀ ▀▀░ ░▀░")
+communities = {}
 import amino
 email=input("Email/Почта:")
 password=input("Password/Пароль:")
 client = amino.Client()
 client.login(email=email, password=password)
-for name, id in zip(client.sub_clients().name, client.sub_clients().comId):
-	print(f"{name}: {id}")
-comid = input("Выберите сообщество(id): ")
-sub_client=amino.SubClient(comId=comid,profile=client.profile)
+clients = client.sub_clients(size=100)
+x = 0
+for name, id in zip(clients.name, clients.comId):
+    print(f"{x + 1}.{name}")
+    communities[x] = str(id)
+    x+=1
+
+communityid = communities[int(input("Выберите сообщество/Select the community: "))-1]
+sub_client = amino.SubClient(comId=communityid, profile=client.profile)
+
 valueofblogs=int(input("Type the number of blogs/Введите количество блогов:"))
 num=0
 while valueofblogs > num and len:
